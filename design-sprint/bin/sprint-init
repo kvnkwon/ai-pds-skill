@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# sprint-init: Initialize a new sprint in the given directory
+# Usage: sprint-init <directory>
+
+SPRINT_DIR="${1:?Usage: sprint-init <directory>}"
+SPRINT_FILE="$SPRINT_DIR/sprint-output.md"
+SKILL_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+
+# Check write permissions
+if [ ! -w "$SPRINT_DIR" ]; then
+  echo "ERROR: No write permission to $SPRINT_DIR" >&2
+  exit 1
+fi
+
+# Validate stage files exist
+MISSING_STAGES=""
+for i in 01 02 03 04 05 06 07 08; do
+  STAGE_FILE="$SKILL_DIR/stages/${i}-*.md"
+  # Use find to avoid glob issues
+  if ! find "$SKILL_DIR/stages" -name "${i}-*.md" -maxdepth 1 2>/dev/null | grep -q .; then
+    MISSING_STAGES="$MISSING_STAGES $i"
+  fi
+done
+
+if [ -n "$MISSING_STAGES" ]; then
+  echo "ERROR: Missing stage files:$MISSING_STAGES" >&2
+  echo "Please reinstall the design-sprint skill." >&2
+  exit 1
+fi
+
+# Check disk space — warn if less than 1MB free in target directory
+AVAIL_KB=$(df -k "$SPRINT_DIR" 2>/dev/null | awk 'NR==2 {print $4}')
+if [ -n "$AVAIL_KB" ] && [ "$AVAIL_KB" -lt 1024 ] 2>/dev/null; then
+  echo "WARNING: Less than 1MB of disk space available in $SPRINT_DIR ($AVAIL_KB KB free)" >&2
+fi
+
+# Check if sprint already exists
+if [ -f "$SPRINT_FILE" ]; then
+  echo "EXISTING"
+  exit 0
+fi
+
+# Create sprint output file with YAML frontmatter
+cat > "$SPRINT_FILE" << EOF
+---
+sprint_dir: $SPRINT_DIR
+stages_completed: []
+created_at: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+updated_at: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+---
+
+# Design Sprint Output
+
+EOF
+
+# Validate that the written file has valid YAML frontmatter
+if [ ! -f "$SPRINT_FILE" ]; then
+  echo "ERROR: Failed to create sprint file: $SPRINT_FILE" >&2
+  exit 1
+fi
+
+WRITTEN_FM=$(sed -n '/^---$/,/^---$/p' "$SPRINT_FILE" 2>/dev/null)
+if [ -z "$WRITTEN_FM" ]; then
+  echo "ERROR: Created file is missing valid YAML frontmatter delimiters (---)" >&2
+  exit 1
+fi
+
+# Verify required frontmatter fields exist
+for FIELD in sprint_dir stages_completed created_at updated_at; do
+  if ! echo "$WRITTEN_FM" | grep -q "^${FIELD}:"; then
+    echo "ERROR: YAML frontmatter validation failed — missing field: $FIELD" >&2
+    exit 1
+  fi
+done
+
+echo "CREATED: $SPRINT_FILE"

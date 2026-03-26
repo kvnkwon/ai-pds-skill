@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# sprint-diff: Compare two sprint versions and show what changed
+# Usage: sprint-diff <sprint-dir>
+# Finds the two most recent sprint-output files and diffs them section by section
+
+SPRINT_DIR="${1:?Usage: sprint-diff <sprint-dir>}"
+
+if [ ! -d "$SPRINT_DIR" ]; then
+  echo "ERROR: Directory not found: $SPRINT_DIR" >&2
+  exit 1
+fi
+
+# Find all sprint output files (current + timestamped versions)
+FILES=$(find "$SPRINT_DIR" -maxdepth 1 -name 'sprint-output*.md' -type f 2>/dev/null | sort -r)
+FILE_COUNT=$(echo "$FILES" | grep -c '.' || echo "0")
+
+if [ "$FILE_COUNT" -lt 2 ]; then
+  echo "NO_DIFF: Only $FILE_COUNT sprint version(s) found. Need at least 2 to compare."
+  echo "Run the sprint again to create a new version, then diff."
+  exit 0
+fi
+
+# Get the two most recent files
+NEWER=$(echo "$FILES" | head -1)
+OLDER=$(echo "$FILES" | head -2 | tail -1)
+
+echo "COMPARING:"
+echo "  OLDER: $(basename "$OLDER")"
+echo "  NEWER: $(basename "$NEWER")"
+echo ""
+
+# Extract content after frontmatter for both files
+extract_content() {
+  local file="$1"
+  local end_line
+  end_line=$(awk '/^---$/{n++; if(n==2){print NR; exit}}' "$file")
+  if [ -n "$end_line" ]; then
+    tail -n +"$((end_line + 1))" "$file"
+  else
+    cat "$file"
+  fi
+}
+
+OLDER_CONTENT=$(extract_content "$OLDER")
+NEWER_CONTENT=$(extract_content "$NEWER")
+
+# Compare section by section
+# Extract sections (## N. Title)
+extract_section() {
+  local content="$1"
+  local section_num="$2"
+  echo "$content" | awk -v num="$section_num" '
+    /^## '"$section_num"'\./ { found=1; next }
+    /^## [0-9]+\./ { if(found) exit }
+    found { print }
+  '
+}
+
+CHANGED=0
+for i in 1 2 3 4 5 6 7 8; do
+  OLD_SEC=$(extract_section "$OLDER_CONTENT" "$i")
+  NEW_SEC=$(extract_section "$NEWER_CONTENT" "$i")
+
+  if [ -z "$OLD_SEC" ] && [ -z "$NEW_SEC" ]; then
+    continue
+  fi
+
+  if [ -z "$OLD_SEC" ]; then
+    echo "ADDED: Stage $i (new in this version)"
+    CHANGED=$((CHANGED + 1))
+  elif [ -z "$NEW_SEC" ]; then
+    echo "REMOVED: Stage $i (was in previous version)"
+    CHANGED=$((CHANGED + 1))
+  elif [ "$OLD_SEC" != "$NEW_SEC" ]; then
+    echo "CHANGED: Stage $i"
+    # Show a simple word-level diff summary
+    OLD_WORDS=$(echo "$OLD_SEC" | wc -w | tr -d ' ')
+    NEW_WORDS=$(echo "$NEW_SEC" | wc -w | tr -d ' ')
+    echo "  Words: $OLD_WORDS → $NEW_WORDS"
+    CHANGED=$((CHANGED + 1))
+  fi
+done
+
+if [ "$CHANGED" -eq 0 ]; then
+  echo "NO_CHANGES: Both versions are identical."
+else
+  echo ""
+  echo "SUMMARY: $CHANGED section(s) changed between versions."
+fi

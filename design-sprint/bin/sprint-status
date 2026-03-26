@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# sprint-status: Read sprint state from frontmatter
+# Usage: sprint-status <sprint-output.md>
+# Output: JSON-like status or FRESH if no file
+
+SPRINT_FILE="${1:?Usage: sprint-status <sprint-output.md>}"
+
+if [ ! -f "$SPRINT_FILE" ]; then
+  echo "FRESH"
+  exit 0
+fi
+
+# Extract YAML frontmatter
+FRONTMATTER=$(sed -n '/^---$/,/^---$/p' "$SPRINT_FILE" 2>/dev/null)
+
+if [ -z "$FRONTMATTER" ]; then
+  echo "WARNING: No valid frontmatter found. Treating as fresh sprint." >&2
+  echo "FRESH"
+  exit 0
+fi
+
+# Extract stages_completed — with recovery from corrupt frontmatter
+STAGES_LINE=$(echo "$FRONTMATTER" | grep 'stages_completed:' || true)
+STAGES_PARSE_OK=true
+
+if [ -z "$STAGES_LINE" ]; then
+  STAGES_PARSE_OK=false
+  STAGES=""
+else
+  STAGES=$(echo "$STAGES_LINE" | sed 's/stages_completed: *\[//' | sed 's/\]//' | tr -d ' ')
+  # Sanity check: stages should only contain digits and commas
+  if echo "$STAGES" | grep -qE '[^0-9, ]'; then
+    STAGES_PARSE_OK=false
+  fi
+fi
+
+if [ "$STAGES_PARSE_OK" = false ]; then
+  echo "WARNING: Corrupt YAML frontmatter detected. Attempting recovery by scanning section headers..." >&2
+  # Scan for "## N." section headers (e.g., "## 1.", "## 2. Understand")
+  RECOVERED=$(grep -oE '^## [0-9]+\.' "$SPRINT_FILE" 2>/dev/null | grep -oE '[0-9]+' | sort -un | tr '\n' ',' | sed 's/,$//')
+  if [ -n "$RECOVERED" ]; then
+    echo "WARNING: Recovered stages from section headers: $RECOVERED" >&2
+    STAGES="$RECOVERED"
+  else
+    echo "WARNING: Could not recover any stage information. Treating as 0 stages completed." >&2
+    STAGES=""
+  fi
+fi
+
+if [ -z "$STAGES" ]; then
+  echo "RESUMING: 0 stages completed"
+  echo "NEXT_STAGE: 1"
+else
+  # Count completed stages
+  COUNT=$(echo "$STAGES" | tr ',' '\n' | grep -c '[0-9]' || echo "0")
+  # Find the highest completed stage
+  LAST=$(echo "$STAGES" | tr ',' '\n' | sort -n | tail -1)
+  NEXT=$((LAST + 1))
+  echo "RESUMING: $COUNT stages completed ($STAGES)"
+  echo "NEXT_STAGE: $NEXT"
+fi
+
+# Extract sprint directory
+SPRINT_DIR=$(echo "$FRONTMATTER" | grep 'sprint_dir:' | sed 's/sprint_dir: *//')
+if [ -n "$SPRINT_DIR" ]; then
+  echo "SPRINT_DIR: $SPRINT_DIR"
+fi

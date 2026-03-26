@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# sprint-write: Append a section to sprint-output.md and update frontmatter
+# Usage: sprint-write <sprint-file> <stage-number> <section-content>
+# The section content is read from stdin if not provided as argument 3
+
+SPRINT_FILE="${1:?Usage: sprint-write <sprint-file> <stage-number> <content>}"
+STAGE_NUM="${2:?Usage: sprint-write <sprint-file> <stage-number> <content>}"
+
+# Validate stage_number is 1-8
+if ! echo "$STAGE_NUM" | grep -qE '^[1-8]$'; then
+  echo "ERROR: Invalid stage number '$STAGE_NUM'. Must be an integer from 1 to 8." >&2
+  exit 1
+fi
+
+# Validate that SPRINT_FILE path is absolute
+case "$SPRINT_FILE" in
+  /*)
+    ;; # absolute path — OK
+  *)
+    echo "ERROR: SPRINT_FILE path must be absolute. Got: $SPRINT_FILE" >&2
+    exit 1
+    ;;
+esac
+
+# Read content from argument or stdin
+if [ -n "${3:-}" ]; then
+  CONTENT="$3"
+else
+  CONTENT=$(cat)
+fi
+
+if [ ! -f "$SPRINT_FILE" ]; then
+  echo "ERROR: Sprint file not found: $SPRINT_FILE" >&2
+  exit 1
+fi
+
+# Check write permission
+if [ ! -w "$SPRINT_FILE" ]; then
+  echo "ERROR: No write permission to $SPRINT_FILE" >&2
+  exit 1
+fi
+
+# Append section content
+printf "\n%s\n" "$CONTENT" >> "$SPRINT_FILE"
+
+# Update stages_completed in frontmatter
+# Read current stages
+CURRENT=$(sed -n '/^---$/,/^---$/p' "$SPRINT_FILE" | grep 'stages_completed:' | sed 's/stages_completed: *\[//' | sed 's/\]//' | tr -d ' ')
+
+if [ -z "$CURRENT" ]; then
+  NEW_STAGES="$STAGE_NUM"
+else
+  # Add new stage if not already present
+  if echo ",$CURRENT," | grep -q ",$STAGE_NUM,"; then
+    NEW_STAGES="$CURRENT"
+  else
+    NEW_STAGES="$CURRENT, $STAGE_NUM"
+  fi
+fi
+
+# Update frontmatter in place
+if command -v sed &>/dev/null; then
+  sed -i '' "s/stages_completed: *\[.*\]/stages_completed: [$NEW_STAGES]/" "$SPRINT_FILE" 2>/dev/null || \
+  sed -i "s/stages_completed: *\[.*\]/stages_completed: [$NEW_STAGES]/" "$SPRINT_FILE" 2>/dev/null
+
+  # Verify that stages_completed was actually updated
+  VERIFY_STAGES=$(sed -n '/^---$/,/^---$/p' "$SPRINT_FILE" | grep 'stages_completed:' | sed 's/stages_completed: *\[//' | sed 's/\]//' | tr -d ' ')
+  if ! echo ",$VERIFY_STAGES," | grep -q ",$STAGE_NUM,"; then
+    echo "WARNING: Failed to update stages_completed in frontmatter. The frontmatter may be malformed." >&2
+  fi
+
+  # Update timestamp
+  NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  sed -i '' "s/updated_at: .*/updated_at: $NOW/" "$SPRINT_FILE" 2>/dev/null || \
+  sed -i "s/updated_at: .*/updated_at: $NOW/" "$SPRINT_FILE" 2>/dev/null
+
+  # Verify timestamp was updated
+  VERIFY_TS=$(sed -n '/^---$/,/^---$/p' "$SPRINT_FILE" | grep 'updated_at:' || true)
+  if [ -z "$VERIFY_TS" ]; then
+    echo "WARNING: Failed to update updated_at timestamp in frontmatter." >&2
+  fi
+fi
+
+echo "WRITTEN: Stage $STAGE_NUM"

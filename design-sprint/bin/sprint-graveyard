@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# sprint-graveyard: Save an abandoned sprint idea to the graveyard
+# Usage: sprint-graveyard <sprint-file> <reason>
+# Moves the sprint output to a graveyard directory with metadata
+
+SPRINT_FILE="${1:?Usage: sprint-graveyard <sprint-file> <reason>}"
+REASON="${2:?Usage: sprint-graveyard <sprint-file> <reason>}"
+
+if [ ! -f "$SPRINT_FILE" ]; then
+  echo "ERROR: Sprint file not found: $SPRINT_FILE" >&2
+  exit 1
+fi
+
+SPRINT_DIR=$(dirname "$SPRINT_FILE")
+GRAVEYARD_DIR="$SPRINT_DIR/.sprint-graveyard"
+mkdir -p "$GRAVEYARD_DIR"
+
+# Extract the idea name from Stage 1 if available
+IDEA_NAME=$(grep -A2 '^\*\*Idea:\*\*' "$SPRINT_FILE" 2>/dev/null | head -1 | sed 's/\*\*Idea:\*\* *//' || echo "unnamed-idea")
+# Sanitize for filename
+IDEA_SLUG=$(echo "$IDEA_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | head -c 50)
+[ -z "$IDEA_SLUG" ] && IDEA_SLUG="unnamed"
+
+TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+GRAVE_FILE="$GRAVEYARD_DIR/${TIMESTAMP}-${IDEA_SLUG}.md"
+
+# Get completion status
+STAGES=$(sed -n '/^---$/,/^---$/p' "$SPRINT_FILE" | grep 'stages_completed:' | sed 's/stages_completed: *\[//' | sed 's/\]//' | tr -d ' ')
+STAGE_COUNT=$(echo "$STAGES" | tr ',' '\n' | grep -c '[0-9]' 2>/dev/null || echo "0")
+
+# Create graveyard entry
+cat > "$GRAVE_FILE" << EOF
+---
+idea: $IDEA_NAME
+abandoned_at: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+stages_completed: $STAGE_COUNT of 8
+reason: $REASON
+---
+
+# Abandoned: $IDEA_NAME
+
+**Killed at stage:** $STAGE_COUNT of 8
+**Reason:** $REASON
+**Date:** $(date +%Y-%m-%d)
+
+---
+
+EOF
+
+# Append the sprint content
+cat "$SPRINT_FILE" >> "$GRAVE_FILE"
+
+echo "BURIED: $GRAVE_FILE"
+echo "IDEA: $IDEA_NAME"
+echo "STAGES: $STAGE_COUNT of 8"
+echo "REASON: $REASON"
