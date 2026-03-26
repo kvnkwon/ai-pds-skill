@@ -1,4 +1,4 @@
-# Stage 5: MVP Scope
+# Stage 6: MVP Scope
 
 ## Purpose
 Define the smallest version of the product that delivers the magic moment.
@@ -59,7 +59,7 @@ gives you 80% of the value? Ship that first, then iterate."
 ## Section Output Format
 
 ```markdown
-## 5. MVP Scope
+## 6. MVP Scope
 
 **Must-have features (v1):**
 1. [Feature] — [why it's essential for the magic moment]

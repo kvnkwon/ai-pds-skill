@@ -1,4 +1,4 @@
-# Stage 7: Assumptions & Risks
+# Stage 8: Assumptions & Risks
 
 ## Purpose
 Surface the hidden assumptions the plan relies on and the risks that could
@@ -62,7 +62,7 @@ Options:
 ## Section Output Format
 
 ```markdown
-## 7. Assumptions & Risks
+## 8. Assumptions & Risks
 
 **Core assumptions:**
 1. [Assumption] — Confidence: High/Medium/Low

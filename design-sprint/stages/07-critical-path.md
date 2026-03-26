@@ -1,4 +1,4 @@
-# Stage 6: Critical Path
+# Stage 7: Critical Path
 
 ## Purpose
 Turn the MVP scope into an ordered build plan. What do you build first,
@@ -57,7 +57,7 @@ Options:
 ## Section Output Format
 
 ```markdown
-## 6. Critical Path
+## 7. Critical Path
 
 **Build order:**
 1. [First thing to build] — [why first / what it unblocks]

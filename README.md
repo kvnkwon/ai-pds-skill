@@ -4,7 +4,7 @@
 
 A Claude Code skill that runs a structured product design sprint — solo. No team needed, no facilitator, no sticky notes. Just you and an AI that simulates PM, designer, engineer, and researcher perspectives through adaptive questioning.
 
-In 30-45 minutes, you go from a raw idea to three build-ready files you can hand straight to Claude Code.
+In 30-50 minutes, you go from a raw idea to three build-ready files you can hand straight to Claude Code.
 
 ## Why this exists
 
@@ -28,7 +28,7 @@ Traditional design sprints solve this, but they require a full team, rigid sched
 
 ## What you get
 
-Run `/sprint` and the AI guides you through 8 progressive stages:
+Run `/sprint` and the AI guides you through 9 progressive stages:
 
 | Stage | What happens | What you produce |
 |-------|-------------|-----------------|
@@ -36,14 +36,15 @@ Run `/sprint` and the AI guides you through 8 progressive stages:
 | 2. **Problem Statement** | Sharpen the idea into a real problem | Clear problem, who feels it, current workarounds |
 | 3. **Target User & JTBD** | Define exactly who needs this | User profile, jobs-to-be-done, alternatives tried |
 | 4. **Solution Direction** | Explore how to solve it | Core insight, product form, magic moment |
-| 5. **MVP Scope** | Cut ruthlessly to the smallest version | Must-haves, explicit cuts, timeline |
-| 6. **Critical Path** | Order the build plan | Build sequence, riskiest assumption, tech stack |
-| 7. **Assumptions & Risks** | Surface hidden blind spots | Ranked assumptions, top risk, kill criteria |
-| 8. **Build Handoff** | Prep for implementation | First session plan, confidence check |
+| 5. **Market & Competitors** | Understand the landscape | Competitive analysis, why now, your angle |
+| 6. **MVP Scope** | Cut ruthlessly to the smallest version | Must-haves, explicit cuts, timeline |
+| 7. **Critical Path** | Order the build plan | Build sequence, riskiest assumption, tech stack |
+| 8. **Assumptions & Risks** | Surface hidden blind spots | Ranked assumptions, top risk, kill criteria |
+| 9. **Build Handoff** | Prep for implementation | First session plan, confidence check |
 
 After the sprint, you get:
 
-- **Sprint Retrospective** — shows how your thinking evolved from Stage 1 to Stage 8
+- **Sprint Retrospective** — shows how your thinking evolved from Stage 1 to Stage 9
 - **Challenge Mode** (optional) — adversarial review that tries to break your plan
 - **Three export files** ready for Claude Code
 

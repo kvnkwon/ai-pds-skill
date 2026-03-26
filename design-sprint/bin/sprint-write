@@ -8,9 +8,9 @@ set -euo pipefail
 SPRINT_FILE="${1:?Usage: sprint-write <sprint-file> <stage-number> <content>}"
 STAGE_NUM="${2:?Usage: sprint-write <sprint-file> <stage-number> <content>}"
 
-# Validate stage_number is 1-8
-if ! echo "$STAGE_NUM" | grep -qE '^[1-8]$'; then
-  echo "ERROR: Invalid stage number '$STAGE_NUM'. Must be an integer from 1 to 8." >&2
+# Validate stage_number is 1-9
+if ! echo "$STAGE_NUM" | grep -qE '^[1-9]$'; then
+  echo "ERROR: Invalid stage number '$STAGE_NUM'. Must be an integer from 1 to 9." >&2
   exit 1
 fi
 

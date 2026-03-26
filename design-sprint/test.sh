@@ -151,7 +151,7 @@ echo "sprint-export"
 echo "-------------"
 
 # Write remaining stages for a more complete export test
-for i in 4 5 6 7 8; do
+for i in 4 5 6 7 8 9; do
   "$BIN_DIR/sprint-write" "$TMPDIR/sprint-output.md" "$i" "## $i. Stage $i
 
 **Content:** Stage $i content"
@@ -198,9 +198,15 @@ else
   pass
 fi
 
-run_test "rejects invalid stage number (9)"
-if "$BIN_DIR/sprint-write" "$TMPDIR/sprint-output.md" "9" "content" 2>/dev/null; then
-  fail "Should have rejected stage 9"
+run_test "accepts stage number 9"
+"$BIN_DIR/sprint-write" "$TMPDIR/sprint-output.md" "9" "## 9. Build Handoff
+
+**Content:** Stage 9 test" >/dev/null 2>&1
+if grep -q "Stage 9 test" "$TMPDIR/sprint-output.md"; then pass; else fail "Stage 9 not written"; fi
+
+run_test "rejects invalid stage number (10)"
+if "$BIN_DIR/sprint-write" "$TMPDIR/sprint-output.md" "10" "content" 2>/dev/null; then
+  fail "Should have rejected stage 10"
 else
   pass
 fi

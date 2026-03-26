@@ -16,7 +16,7 @@ fi
 
 # Validate stage files exist
 MISSING_STAGES=""
-for i in 01 02 03 04 05 06 07 08; do
+for i in 01 02 03 04 05 06 07 08 09; do
   STAGE_FILE="$SKILL_DIR/stages/${i}-*.md"
   # Use find to avoid glob issues
   if ! find "$SKILL_DIR/stages" -name "${i}-*.md" -maxdepth 1 2>/dev/null | grep -q .; then

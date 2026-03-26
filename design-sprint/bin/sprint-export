@@ -86,7 +86,7 @@ HEADER
 echo "$CONTENT"
 
 # Append "What NOT to Build" section from MVP Scope's "Explicitly NOT in v1"
-NOT_V1=$(extract_field 5 "Explicitly NOT")
+NOT_V1=$(extract_field 6 "Explicitly NOT")
 if [ -n "$NOT_V1" ]; then
   printf '\n---\n\n## What NOT to Build\n\n'
   echo "$NOT_V1"
@@ -111,9 +111,9 @@ if [ -n "$PROBLEM" ]; then
   printf '## Problem\n\n%s\n\n' "$PROBLEM"
 fi
 
-# MVP features from section 5
-MVP_FEATURES=$(extract_field 5 "must-have")
-NOT_V1_STARTER=$(extract_field 5 "Explicitly NOT")
+# MVP features from section 6
+MVP_FEATURES=$(extract_field 6 "must-have")
+NOT_V1_STARTER=$(extract_field 6 "Explicitly NOT")
 if [ -n "$MVP_FEATURES" ]; then
   printf '## MVP Features\n\n%s\n\n' "$MVP_FEATURES"
 fi
@@ -121,32 +121,32 @@ if [ -n "$NOT_V1_STARTER" ]; then
   printf '## Out of Scope (v1)\n\n%s\n\n' "$NOT_V1_STARTER"
 fi
 
-# Tech stack from section 6
-TECH_STACK=$(extract_field 6 "Tech stack")
+# Tech stack from section 7
+TECH_STACK=$(extract_field 7 "Tech stack")
 if [ -n "$TECH_STACK" ]; then
   printf '## Tech Stack\n\n%s\n\n' "$TECH_STACK"
 fi
 
-# Build order from section 6
-BUILD_ORDER=$(extract_field 6 "Build order")
+# Build order from section 7
+BUILD_ORDER=$(extract_field 7 "Build order")
 if [ -n "$BUILD_ORDER" ]; then
   printf '## Build Order\n\n%s\n\n' "$BUILD_ORDER"
 fi
 
-# Assumptions & risks from section 7
-ASSUMPTIONS=$(extract_section 7)
+# Assumptions & risks from section 8
+ASSUMPTIONS=$(extract_section 8)
 if [ -n "$ASSUMPTIONS" ]; then
   printf '## Assumptions & Risks\n\n%s\n\n' "$ASSUMPTIONS"
 fi
 
-# First session plan from section 8
-SESSION_PLAN=$(extract_field 8 "First coding session")
+# First session plan from section 9
+SESSION_PLAN=$(extract_field 9 "First coding session")
 if [ -n "$SESSION_PLAN" ]; then
   printf '## First Session Plan\n\n%s\n\n' "$SESSION_PLAN"
 fi
 
-# Additional context from section 8
-EXTRA_CONTEXT=$(extract_field 8 "Additional context")
+# Additional context from section 9
+EXTRA_CONTEXT=$(extract_field 9 "Additional context")
 if [ -n "$EXTRA_CONTEXT" ]; then
   printf '## Additional Context\n\n%s\n\n' "$EXTRA_CONTEXT"
 fi
@@ -202,11 +202,21 @@ else
 fi
 printf '\n'
 
-# The MVP — from section 5
+# The Market — from section 5
 SEC5=$(extract_section 5)
-printf '## The MVP\n\n'
+printf '## The Market\n\n'
 if [ -n "$SEC5" ]; then
   echo "$SEC5"
+else
+  echo "_See product-context.md_"
+fi
+printf '\n'
+
+# The MVP — from section 6
+SEC6=$(extract_section 6)
+printf '## The MVP\n\n'
+if [ -n "$SEC6" ]; then
+  echo "$SEC6"
 else
   echo "_See product-context.md_"
 fi

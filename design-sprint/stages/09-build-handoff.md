@@ -1,4 +1,4 @@
-# Stage 8: Build Handoff
+# Stage 9: Build Handoff
 
 ## Purpose
 Finalize the sprint and prepare for implementation. This stage synthesizes
@@ -50,7 +50,7 @@ uncertainty? Let's talk through it." Address the concern, then re-ask.
 ## Section Output Format
 
 ```markdown
-## 8. Build Handoff
+## 9. Build Handoff
 
 **First coding session plan:**
 1. [First task]
