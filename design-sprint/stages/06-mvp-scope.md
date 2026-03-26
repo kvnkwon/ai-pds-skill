@@ -41,6 +41,26 @@ this?' for each one]."
 more than 3-5 core features, it's not an MVP — it's a v2 disguised as a v1.
 The purpose of an MVP isn't to impress. It's to learn."
 
+## Research Phase (if RESEARCH_ENABLED)
+
+After the user has listed their MVP features and cuts, research what similar
+products launched with:
+
+1. Run these WebSearch queries based on the user's product:
+   - "built [similar product] in a weekend"
+   - "[similar product] Show HN"
+   - "[similar product] Product Hunt launch"
+2. Find what similar products launched with as their v1
+3. Present findings as ADVISORY RECOMMENDATIONS (not prescriptions):
+   - "Similar products launched with just [features]. [Product X] launched with one feature and grew."
+   - "Interesting: [Product Y] skipped [feature] entirely in v1 and added it later based on user feedback."
+4. The user can take or leave these recommendations — they inform, not dictate
+
+## Fallback (if RESEARCH_ENABLED is false)
+
+Skip the research phase after the questions and proceed directly to Q3 and
+the section output using only what the user has shared.
+
 ### Q3: The Timeline
 Ask via AskUserQuestion:
 

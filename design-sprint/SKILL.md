@@ -55,13 +55,38 @@ up from. Read all completed sections so you have full context before continuing.
 
 **If fresh:** Welcome the user:
 
-> Welcome to your design sprint. Over the next 30-45 minutes, I'll guide you through
+> Welcome to your design sprint. Over the next 30-50 minutes, I'll guide you through
 > 9 stages of structured product thinking. At the end, you'll have a build-ready plan
 > you can hand to Claude Code.
 >
 > You can quit anytime — your progress is saved after each stage.
 >
 > Let's start. What's your idea?
+
+---
+
+## Research Privacy Gate
+
+After the user describes their idea (Stage 1), and BEFORE running any web searches,
+ask for consent via AskUserQuestion:
+
+> "I can research your market, competitors, and validate your assumptions using web
+> search. I'll use generalized category terms — never your specific product name or
+> proprietary concepts. This sends search queries to a search provider.
+>
+> Want me to do research as we go through the sprint?"
+
+Options:
+- A) Yes — research as we go (recommended)
+- B) No — keep this session private (questionnaire-only mode)
+
+**If A:** Set `RESEARCH_ENABLED=true`. All stages will include their research phase.
+**If B:** Set `RESEARCH_ENABLED=false`. All stages skip research and use the
+questionnaire-only flow. Do NOT re-ask during the sprint.
+
+If WebSearch is unavailable (tool not accessible), silently fall back to
+questionnaire-only mode. Note: "Web search unavailable — running in
+questionnaire-only mode."
 
 ---
 

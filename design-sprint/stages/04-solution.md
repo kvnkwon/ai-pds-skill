@@ -5,6 +5,29 @@ Now that the problem and user are clear, explore HOW to solve it. This is where
 the user starts thinking about their actual product — but still at the concept
 level, not the feature level.
 
+## Research Phase (if RESEARCH_ENABLED)
+
+Before asking the user questions, research what already exists in this space:
+
+1. Take the problem statement and solution direction from prior stages
+2. Run these WebSearch queries:
+   - "[solution type] existing products"
+   - "[problem] open source solutions"
+   - "[problem] how I built [solution type]"
+3. Find existing products, open source projects, and blog posts about building similar things
+4. Search for post-mortems from failed attempts in this space:
+   - "[solution type] failed startup post-mortem"
+   - "[problem] why [product] shut down"
+5. Present findings to the user:
+   - "I found these existing approaches: [list]. Here's what worked and what didn't..."
+   - Surface both inspiration (products/projects to learn from) and cautionary tales (what failed and why)
+6. Use this context to inform the questions below — reference specific examples when relevant
+
+## Fallback (if RESEARCH_ENABLED is false)
+
+Skip the research phase and proceed directly to the questions below using only
+what the user has shared so far.
+
 ## Questions
 
 ### Q1: The Core Insight
