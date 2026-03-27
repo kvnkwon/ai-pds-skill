@@ -3,122 +3,65 @@
 ## Purpose
 Define exactly who the user is and what job they're hiring this product to do.
 The JTBD framework forces clarity: "When [situation], I want to [motivation],
-so I can [outcome]."
+so I can [outcome]." JTBD lives here, not in Stage 2.
 
-## Research Phase (if RESEARCH_ENABLED)
+## Emotional Arc
+Empathy, specificity. "Picture this person..." Make the user concrete and real.
 
-Before asking questions, research the target user's world:
+## Conversation Flow
 
-1. **Take the target user type** from Stage 2 (the "who feels it most" answer).
+### Step 1: Define the user
+Start with what we know from Stages 1-2, then get specific:
 
-2. **WebSearch** to find where these users live online:
-   - "[user type] community"
-   - "[user type] subreddit"
-   - "[user type] tools they use"
+> "Based on what we've discussed, who is the person who needs this most?
+> Not 'everyone' — the ONE person who'd be devastated if this didn't exist."
 
-3. **Find communities** where these users hang out — subreddits, forums,
-   Discord servers, Slack groups, niche platforms. Note which communities are
-   most active and what topics dominate.
+Probe for specifics:
+- "What's their day like? When does this problem hit?"
+- "How technical are they? What tools do they already use?"
+- "What's their relationship to [problem domain]?"
 
-4. **Profile their typical behaviors** from community data:
-   - What tools and workflows do they mention most?
-   - What do they complain about repeatedly?
-   - What do they celebrate or recommend to each other?
-   - What language and jargon do they use?
+### Research Phase (if RESEARCH_ENABLED)
+Research the target user's world:
+- "[user type] community" / "[user type] subreddit"
+- "[user type] tools they use"
+- Find where these users hang out — subreddits, forums, Discord, Slack
+- Profile their behaviors: tools, complaints, recommendations, jargon
 
-5. **Present findings** to the user:
-   > "Your target user hangs out in [communities]. Here's what they talk about
-   > most: [top themes]. The tools they mention constantly are [tools]. And
-   > their biggest recurring complaints are [pain points]."
+Present findings:
+> "Your target user hangs out in [communities]. They talk about [themes].
+> The tools they mention are [tools]. Recurring complaints: [pain points]."
 
-Then proceed to the Questions below, reframing with research context
-(see Q1 and Q3 notes).
+Use this to validate/refine the user definition. Collect quotes for Quote Wall.
 
-## Fallback (if RESEARCH_ENABLED is false)
-
-Skip the Research Phase entirely and proceed directly to the Questions below
-using the standard questionnaire flow.
-
-## Questions
-
-### Q1: The User (skip if clearly defined in Stage 2)
-**If research found community data (RESEARCH_ENABLED):** Validate against
-findings rather than asking from scratch:
-
-> "Based on what I found, your target user seems to be [description from
-> research — their role, the communities they frequent, their daily tools].
-> Does this match your picture of them, or are you targeting a different
-> segment?"
-
-Options:
-- A) That's my user exactly
-- B) Close, but my user is more specifically [let me refine]
-- C) I'm targeting a different subset — let me describe them
-- D) I didn't know about those communities — tell me more
-
-Follow up: "What's their typical day like? When in their day does this problem hit?"
-
-**If no research (RESEARCH_ENABLED is false):** Use the original flow.
-
-Ask via AskUserQuestion:
-
-> "Let's get specific about your user. Which describes them best?"
-
-Options:
-- A) A professional doing their job (what role?)
-- B) A creator/builder making something (what kind?)
-- C) A consumer solving a personal problem (what situation?)
-- D) Let me describe them my way
-
-Follow up: "What's their typical day like? When in their day does this problem hit?"
-
-### Q2: The Job-to-be-Done
-Ask via AskUserQuestion:
-
-> "Complete this sentence from your user's perspective:
+### Step 2: Jobs-to-be-Done
+> "Complete this from your user's perspective:
 > 'When I'm [situation], I want to [action], so I can [outcome].'"
 
-Options:
-- A) Let me fill it in myself
-- B) Help me figure it out — ask me questions
-- C) I think there are multiple jobs — help me pick the main one
-
-**If B:** Break it down:
+If they're stuck, break it down:
 - "What situation triggers the need?" (the 'when')
 - "What do they want to accomplish?" (the 'want to')
 - "What's the real outcome they care about?" (the 'so I can')
 
-### Q3: Alternatives They've Tried
-**If research found tool/community data (RESEARCH_ENABLED):** Use it to
-challenge or validate:
+If multiple jobs surface, help identify the primary one.
 
-> "From what I found, people in [community] tend to use [tools/workarounds]
-> for this. They say things like [quote or paraphrase about shortcomings].
-> Is that the competitive landscape you see, or are there other alternatives
-> your user has tried?"
+### Step 3: Current alternatives
+**If research found data:** Validate against findings:
+> "From what I found, people in [community] use [tools/workarounds].
+> They say [quote about shortcomings]. Is that what you see?"
 
-Options:
-- A) Yes — those are the main alternatives, and they fall short because [reason]
-- B) There are others you missed — let me add to the picture
-- C) My users aren't using those — they've mostly given up
-- D) I hadn't mapped the alternatives yet — this is helpful
-
-**If no research (RESEARCH_ENABLED is false):** Use the original flow.
-
-Ask via AskUserQuestion:
-
+**If no research:**
 > "Has your target user tried to solve this before? What happened?"
 
-Options:
-- A) Yes — they tried [existing tool] but it fell short because [reason]
-- B) Yes — they built a hacky workaround (spreadsheet, manual process)
-- C) No — they've given up or accepted the pain
-- D) I'm not sure — I haven't talked to anyone about this
+Explore: existing tools, hacky workarounds, or have they given up entirely?
 
-**Perspective injection opportunity:** If the user says D (or equivalent), gently push:
-"That's honest, and it's the most common answer. But the gap between 'I think
-people want this' and 'I know Sarah wants this' is enormous. Even one
-conversation with a real user changes everything."
+If user hasn't talked to anyone about this, gently push:
+"That's honest. The gap between 'I think people want this' and 'I know
+Sarah wants this' is enormous. Even one conversation changes everything."
+
+## Assumption Tracking
+"Users currently use [tool] for this" and "Users would switch because [reason]"
+are both assumptions to flag.
 
 ## Section Output Format
 
@@ -127,7 +70,7 @@ conversation with a real user changes everything."
 
 **Target user:** [Specific description — role, context, day-to-day]
 
-**Communities:** [If RESEARCH_ENABLED: where they hang out online and what they discuss]
+**Communities:** [Where they hang out online, what they discuss]
 
 **Jobs-to-be-done:**
 When [situation], I want to [motivation], so I can [outcome].
@@ -135,4 +78,10 @@ When [situation], I want to [motivation], so I can [outcome].
 **Current alternatives:** [What they use/do today and why it falls short]
 
 **Switching trigger:** [What would make them try something new]
+
+### Research Findings
+[Community data, user quotes, tool mentions, behavioral patterns]
+
+### Discussion Notes
+[How the user definition evolved, alternatives explored, key insights]
 ```

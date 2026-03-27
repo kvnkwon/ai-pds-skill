@@ -39,10 +39,10 @@ Challenge the target user:
 
 Same options as above.
 
-### Step 3: Attack the MVP Scope
-Challenge the scope:
+### Step 3: Attack the Features
+Challenge the feature set:
 
-> "Your MVP includes [list their features]. I think [specific feature]
+> "Your features include [list their features]. I think [specific feature]
 > is actually not necessary for the magic moment. Here's why: [reasoning].
 >
 > And I think you're MISSING [something they didn't include] — without it,
@@ -53,7 +53,7 @@ Challenge the scope:
 Same options.
 
 ### Step 4: Attack the Riskiest Assumption
-From Stage 7, pick their lowest-confidence assumption:
+From Stage 7 (Assumptions & Risks), pick their lowest-confidence assumption:
 
 > "You rated '[assumption]' as your lowest-confidence assumption. Let me
 > make it worse: [amplify the risk with a concrete scenario].
@@ -71,7 +71,7 @@ After all challenges, summarize:
 >
 > - Problem Statement: [SOLID / NEEDS WORK / FATAL FLAW]
 > - Target User: [SOLID / NEEDS WORK / FATAL FLAW]
-> - MVP Scope: [SOLID / NEEDS WORK / FATAL FLAW]
+> - Features: [SOLID / NEEDS WORK / FATAL FLAW]
 > - Key Assumption: [SOLID / NEEDS WORK / FATAL FLAW]
 >
 > **Overall:** [Your plan survived the challenge / Your plan has gaps to address]

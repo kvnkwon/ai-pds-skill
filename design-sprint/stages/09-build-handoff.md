@@ -1,66 +1,85 @@
 # Stage 9: Build Handoff
 
 ## Purpose
-Finalize the sprint and prepare for implementation. This stage synthesizes
-everything into an actionable build plan and generates the export files.
+Finalize the sprint and prepare for what's next. The user chooses their path:
+build now or validate first with a prototype. Keep this light on tech — the
+sprint is about what and why, not how to implement.
 
-## Questions
+## Emotional Arc
+Activation, momentum. "You're ready. Here's what's next..." The user should
+feel energized and clear about their next step.
 
-### Q1: First Session Plan
-Ask via AskUserQuestion:
+## Conversation Flow
 
-> "When you sit down to build this, what's the very first thing you'll do
-> in your first coding session?"
-
-Options:
-- A) Set up the project and scaffold the basic structure
-- B) Build the core feature first — get the magic moment working
-- C) Start with the data model / backend
-- D) I'm not sure — help me plan my first session
-
-**If D:** Based on the Critical Path (Stage 6), suggest a concrete first
-session plan: "Based on your build order, I'd start with [X]. In your first
-session, aim to have [concrete milestone] working."
-
-### Q2: What Claude Code Needs to Know
-Ask via AskUserQuestion:
-
-> "Is there anything Claude Code should know that we haven't covered?
-> Specific libraries, design preferences, constraints, or things to avoid?"
+### Step 1: Path choice
+> "You've got a complete plan. What feels right as the next step?"
 
 Options:
-- A) Yes — let me add some context
-- B) No — everything important is captured
-- C) I want to specify my design preferences (colors, style, etc.)
+- A) Build it — I'm ready to start coding
+- B) Prototype first — I want to validate before building
+- C) I need to think about it — just give me the exports
 
-### Q3: Confidence Check
-Ask via AskUserQuestion:
+### If Build Path (A):
+> "When you sit down to build this, what's the very first thing you'll do?"
 
-> "On a scale of 1-10, how confident do you feel about building this now
-> compared to when we started?"
+Help them plan their first coding session:
+- What to scaffold first
+- Which feature to build first (usually the magic moment)
+- What "done for day one" looks like
 
-Options:
-- A) 8-10 — I know exactly what to build and I'm excited
-- B) 5-7 — I'm clearer but still have some uncertainty
-- C) 1-4 — I'm still not sure about the direction
+Keep it high-level:
+- Platform direction is fine ("React Native" vs "web app")
+- NO specific tech stack prescriptions (no "use Supabase with RLS")
+- NO implementation architecture details
+- The sprint outputs (app map, features, research, assumptions) are the inputs
+  to engineering decisions made during actual building
 
-**If C:** "That's important to acknowledge. What's the biggest remaining
-uncertainty? Let's talk through it." Address the concern, then re-ask.
+### If Prototype Path (B):
+Present three options based on what they want to validate:
+
+> "What kind of prototype would be most useful?"
+
+- **A) Interactive HTML prototype** — I'll generate a single-file HTML/CSS/JS
+  clickable prototype you can open in a browser, click through flows, and
+  share with testers.
+- **B) Figma-ready spec** — Detailed screen-by-screen spec building on the
+  App Structure Map, with enough detail to mock up in any design tool.
+- **C) Interview + landing page kit** — The interview script from Stage 7
+  plus a product landing page to test interest before building.
+
+### Step 2: Additional context
+> "Is there anything else important that we haven't covered? Specific
+> constraints, design preferences, things to avoid?"
+
+### Step 3: Confidence check
+> "On a scale of 1-10, how confident do you feel about this plan compared
+> to when we started?"
+
+- **8-10:** Great. They're ready.
+- **5-7:** "What's the biggest remaining uncertainty?" Address it.
+- **1-4:** "That's important. What's the main thing that's unclear?" Talk through
+  it. If needed, offer to revisit a specific stage.
 
 ## Section Output Format
 
 ```markdown
 ## 9. Build Handoff
 
-**First coding session plan:**
-1. [First task]
-2. [Second task]
-3. [Goal for end of first session]
+**Chosen path:** [Build / Prototype (type) / Thinking about it]
 
-**Additional context for Claude Code:**
-[Any preferences, constraints, or notes not captured elsewhere]
+**First step plan:**
+1. [First action]
+2. [Second action]
+3. [Goal for first session]
+
+**Platform direction:** [Web / Mobile / CLI / etc. — high level only]
+
+**Additional context:** [Preferences, constraints, things to avoid]
 
 **Builder confidence:** [1-10] — [brief explanation]
 
 **Next action:** [The one thing to do RIGHT NOW after this sprint]
+
+### Discussion Notes
+[Path decision reasoning, concerns addressed, energy level at close]
 ```

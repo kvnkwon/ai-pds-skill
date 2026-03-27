@@ -7,7 +7,7 @@ clarity is made visible.
 
 ## Instructions
 
-Read the full sprint-output.md. Compare Stage 1 (Exploration) to Stage 8
+Read the full sprint-output.md. Compare Stage 1 (Understand) to Stage 9
 (Build Handoff). Look for:
 
 1. **Idea evolution:** How did the idea change from the initial description?
@@ -19,8 +19,8 @@ Read the full sprint-output.md. Compare Stage 1 (Exploration) to Stage 8
 3. **User specificity:** Did they go from "everyone" to a specific person?
    From vague to concrete?
 
-4. **Scope discipline:** How much got cut between their initial vision and
-   the MVP? What did they let go of?
+4. **Feature evolution:** How did the feature set evolve from ideation to
+   the final catalog? What got cut or combined?
 
 5. **Confidence trajectory:** Did they start uncertain and gain clarity,
    or did they start confident and get more realistic?
@@ -39,8 +39,9 @@ Example format:
 > description]" to "[final user description]" — that's the kind of focus
 > that makes products work.
 >
-> The biggest shift was in Stage 5, when you cut [features they cut]. That
-> took discipline — most people can't let go of features they're excited about.
+> The biggest shift was in [stage], when [what changed]. The app structure
+> map in Stage 8 brought it all together — [observation about how it felt
+> to see the full picture].
 >
 > Your problem statement evolved from "[initial]" to "[final]" — notice how
 > much more specific and actionable the final version is.

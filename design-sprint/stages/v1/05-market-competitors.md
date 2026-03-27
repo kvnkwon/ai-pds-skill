@@ -1,12 +1,10 @@
 # Stage 5: Market & Competitors
 
 ## Purpose
-Understand the landscape. Who else is solving this problem (or adjacent problems)?
-Why is NOW the right time? This prevents building something that already exists —
-or missing an opportunity to differentiate.
-
-## Emotional Arc
-Analytical, grounded. "Here's what's out there..." Facts and data, not hype.
+Understand the landscape before scoping your MVP. Who else is solving this
+problem (or adjacent problems)? Why is NOW the right time? This prevents
+building something that already exists — or missing an opportunity to
+differentiate.
 
 When RESEARCH_ENABLED is true, this stage does real competitive research
 before asking questions — making it dramatically more useful. The assistant
@@ -193,14 +191,4 @@ reviews and forums — what real users hate about existing solutions]
 **Market size signal:** [Not a TAM number — a concrete indicator like
 "X people searched for this" or "Y subreddit has Z subscribers" or
 "I know N people who have this problem"]
-
-### Research Findings
-[Competitor details, pricing data, user reviews, community quotes]
-
-### Discussion Notes
-[How landscape understanding evolved, surprising competitors, positioning decisions]
 ```
-
-## Assumption Tracking
-"There's no good solution for this" and "Users would switch because [X]" are
-both assumptions. Flag them.

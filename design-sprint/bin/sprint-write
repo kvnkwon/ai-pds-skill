@@ -3,16 +3,12 @@ set -euo pipefail
 
 # sprint-write: Append a section to sprint-output.md and update frontmatter
 # Usage: sprint-write <sprint-file> <stage-number> <section-content>
+#        sprint-write <sprint-file> append-assumption <pipe-delimited-value>
+#        sprint-write <sprint-file> append-quote <pipe-delimited-value>
 # The section content is read from stdin if not provided as argument 3
 
-SPRINT_FILE="${1:?Usage: sprint-write <sprint-file> <stage-number> <content>}"
-STAGE_NUM="${2:?Usage: sprint-write <sprint-file> <stage-number> <content>}"
-
-# Validate stage_number is 1-9
-if ! echo "$STAGE_NUM" | grep -qE '^[1-9]$'; then
-  echo "ERROR: Invalid stage number '$STAGE_NUM'. Must be an integer from 1 to 9." >&2
-  exit 1
-fi
+SPRINT_FILE="${1:?Usage: sprint-write <sprint-file> <stage-number|append-assumption|append-quote> <content>}"
+ACTION="${2:?Usage: sprint-write <sprint-file> <stage-number|append-assumption|append-quote> <content>}"
 
 # Validate that SPRINT_FILE path is absolute
 case "$SPRINT_FILE" in
@@ -24,13 +20,6 @@ case "$SPRINT_FILE" in
     ;;
 esac
 
-# Read content from argument or stdin
-if [ -n "${3:-}" ]; then
-  CONTENT="$3"
-else
-  CONTENT=$(cat)
-fi
-
 if [ ! -f "$SPRINT_FILE" ]; then
   echo "ERROR: Sprint file not found: $SPRINT_FILE" >&2
   exit 1
@@ -40,6 +29,100 @@ fi
 if [ ! -w "$SPRINT_FILE" ]; then
   echo "ERROR: No write permission to $SPRINT_FILE" >&2
   exit 1
+fi
+
+# ── Array append operations ──────────────────────────────────────────────
+# Appends a pipe-delimited entry to a multi-line YAML array in frontmatter.
+# Format: key:\n  - "value1"\n  - "value2"
+append_to_yaml_array() {
+  local key="$1"
+  local value="$2"
+  local file="$3"
+
+  # Check if key exists in frontmatter
+  if ! sed -n '/^---$/,/^---$/p' "$file" | grep -q "^${key}:"; then
+    # Key missing (v1 sprint) — insert it before the closing ---
+    # Use awk to insert the key + first entry before the second ---
+    awk -v key="$key" -v val="$value" '
+      BEGIN { count=0 }
+      /^---$/ { count++ }
+      count==2 && !inserted {
+        print key ":"
+        print "  - \"" val "\""
+        inserted=1
+      }
+      { print }
+    ' "$file" > "${file}.tmp" && mv "${file}.tmp" "$file"
+  else
+    # Key exists — find it and append after last existing entry (or right after key if empty)
+    awk -v key="$key" -v val="$value" '
+      /^---$/ { fm_delim++ }
+      fm_delim == 1 {
+        if ($0 ~ "^" key ":") {
+          found_key = 1
+          print
+          next
+        }
+        if (found_key && /^  - /) {
+          print
+          next
+        }
+        if (found_key && !/^  - /) {
+          # End of array (or empty array) — insert before this line
+          print "  - \"" val "\""
+          found_key = 0
+          inserted = 1
+          print
+          next
+        }
+      }
+      # Handle case where key is last before closing ---
+      fm_delim == 2 && found_key && !inserted {
+        print "  - \"" val "\""
+        found_key = 0
+        inserted = 1
+      }
+      { print }
+    ' "$file" > "${file}.tmp" && mv "${file}.tmp" "$file"
+  fi
+
+  # Update timestamp
+  local NOW
+  NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  sed -i '' "s/updated_at: .*/updated_at: $NOW/" "$file" 2>/dev/null || \
+  sed -i "s/updated_at: .*/updated_at: $NOW/" "$file" 2>/dev/null
+}
+
+# ── Handle append operations ─────────────────────────────────────────────
+case "$ACTION" in
+  append-assumption)
+    VALUE="${3:?Usage: sprint-write <file> append-assumption <value>}"
+    append_to_yaml_array "assumptions" "$VALUE" "$SPRINT_FILE"
+    echo "APPENDED: assumption"
+    exit 0
+    ;;
+  append-quote)
+    VALUE="${3:?Usage: sprint-write <file> append-quote <value>}"
+    append_to_yaml_array "quotes" "$VALUE" "$SPRINT_FILE"
+    echo "APPENDED: quote"
+    exit 0
+    ;;
+esac
+
+# ── Stage write operation (original behavior) ────────────────────────────
+STAGE_NUM="$ACTION"
+
+# Validate stage_number is 1-9
+if ! echo "$STAGE_NUM" | grep -qE '^[1-9]$'; then
+  echo "ERROR: Invalid stage number '$STAGE_NUM'. Must be an integer from 1 to 9." >&2
+  exit 1
+fi
+
+# Read content from argument or stdin
+if [ -n "${3:-}" ]; then
+  CONTENT="$3"
+else
+  CONTENT=$(cat)
 fi
 
 # Append section content

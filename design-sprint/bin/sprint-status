@@ -67,3 +67,10 @@ SPRINT_DIR=$(echo "$FRONTMATTER" | grep 'sprint_dir:' | sed 's/sprint_dir: *//')
 if [ -n "$SPRINT_DIR" ]; then
   echo "SPRINT_DIR: $SPRINT_DIR"
 fi
+
+# Extract sprint version (default to 1 if missing)
+SPRINT_VERSION=$(echo "$FRONTMATTER" | grep 'sprint_version:' | sed 's/sprint_version: *//' || true)
+if [ -z "$SPRINT_VERSION" ]; then
+  SPRINT_VERSION="1"
+fi
+echo "VERSION: $SPRINT_VERSION"

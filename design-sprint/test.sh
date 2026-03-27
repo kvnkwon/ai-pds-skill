@@ -161,8 +161,8 @@ run_test "generates product-context.md"
 "$BIN_DIR/sprint-export" "$TMPDIR/sprint-output.md" >/dev/null 2>&1
 if [ -f "$TMPDIR/product-context.md" ]; then pass; else fail "product-context.md not created"; fi
 
-run_test "generates claude-code-starter.md"
-if [ -f "$TMPDIR/claude-code-starter.md" ]; then pass; else fail "claude-code-starter.md not created"; fi
+run_test "v2 sprint does NOT generate claude-code-starter.md"
+if [ ! -f "$TMPDIR/claude-code-starter.md" ]; then pass; else fail "claude-code-starter.md should not exist for v2"; fi
 
 run_test "generates pitch-summary.md"
 if [ -f "$TMPDIR/pitch-summary.md" ]; then pass; else fail "pitch-summary.md not created"; fi
@@ -331,6 +331,237 @@ run_test "warns on low disk space (smoke test)"
 # This just verifies the check runs without crashing — we can't easily simulate low disk
 OUTPUT=$("$BIN_DIR/sprint-init" "$(mktemp -d)" 2>&1)
 if echo "$OUTPUT" | grep -q "CREATED\|WARNING"; then pass; else fail "Unexpected output: $OUTPUT"; fi
+
+echo ""
+
+# ========================================
+# v2 TESTS — Phase 0 Foundation
+# ========================================
+
+echo "sprint-init (v2 frontmatter)"
+echo "----------------------------"
+
+V2_DIR=$(mktemp -d)
+"$BIN_DIR/sprint-init" "$V2_DIR" >/dev/null 2>&1
+
+run_test "v2: new sprint has sprint_version: 2"
+if grep -q "sprint_version: 2" "$V2_DIR/sprint-output.md"; then pass; else fail "Missing sprint_version: 2"; fi
+
+run_test "v2: new sprint has empty assumptions array"
+if grep -q "^assumptions:" "$V2_DIR/sprint-output.md"; then pass; else fail "Missing assumptions key"; fi
+
+rm -rf "$V2_DIR"
+
+echo ""
+
+# ========================================
+echo "sprint-write (v2 array operations)"
+echo "-----------------------------------"
+
+V2_WRITE_DIR=$(mktemp -d)
+"$BIN_DIR/sprint-init" "$V2_WRITE_DIR" >/dev/null 2>&1
+V2_FILE="$V2_WRITE_DIR/sprint-output.md"
+
+run_test "v2: append assumption to empty array"
+"$BIN_DIR/sprint-write" "$V2_FILE" "append-assumption" "Dog owners will pay|medium|user-stated|2|unvalidated"
+if grep -q "Dog owners will pay|medium|user-stated|2|unvalidated" "$V2_FILE"; then pass; else fail "Assumption not appended"; fi
+
+run_test "v2: append assumption preserves existing entries"
+"$BIN_DIR/sprint-write" "$V2_FILE" "append-assumption" "Walk tracking is core|high|research|4|validated"
+if grep -q "Dog owners will pay" "$V2_FILE" && grep -q "Walk tracking is core" "$V2_FILE"; then
+  pass
+else
+  fail "Existing assumption lost or new one not added"
+fi
+
+run_test "v2: append quote to array"
+"$BIN_DIR/sprint-write" "$V2_FILE" "append-quote" "I feel guilty when I skip walks|r/dogs reddit|2"
+if grep -q "I feel guilty when I skip walks" "$V2_FILE"; then pass; else fail "Quote not appended"; fi
+
+run_test "v2: pipe-delimited value with special chars survives"
+"$BIN_DIR/sprint-write" "$V2_FILE" "append-assumption" "Users say: \"I need this\"|low|inferred|3|unvalidated"
+if grep -q 'Users say: "I need this"' "$V2_FILE"; then pass; else fail "Special chars corrupted"; fi
+
+rm -rf "$V2_WRITE_DIR"
+
+echo ""
+
+# ========================================
+echo "sprint-status (v2 version detection)"
+echo "------------------------------------"
+
+V2_STATUS_DIR=$(mktemp -d)
+"$BIN_DIR/sprint-init" "$V2_STATUS_DIR" >/dev/null 2>&1
+
+run_test "v2: detects and reports sprint_version"
+OUTPUT=$("$BIN_DIR/sprint-status" "$V2_STATUS_DIR/sprint-output.md" 2>&1)
+if echo "$OUTPUT" | grep -q "VERSION: 2"; then pass; else fail "Expected VERSION: 2, got: $OUTPUT"; fi
+
+run_test "v2: missing version treated as v1"
+V1_STATUS_DIR=$(mktemp -d)
+cat > "$V1_STATUS_DIR/sprint-output.md" << 'V1FM'
+---
+sprint_dir: /tmp/test
+stages_completed: [1, 2]
+created_at: 2026-01-01T00:00:00Z
+updated_at: 2026-01-01T00:00:00Z
+---
+
+## 1. Exploration
+
+**Idea:** Test
+V1FM
+OUTPUT=$("$BIN_DIR/sprint-status" "$V1_STATUS_DIR/sprint-output.md" 2>&1)
+if echo "$OUTPUT" | grep -q "VERSION: 1"; then pass; else fail "Expected VERSION: 1, got: $OUTPUT"; fi
+rm -rf "$V1_STATUS_DIR"
+
+rm -rf "$V2_STATUS_DIR"
+
+echo ""
+
+# ========================================
+echo "sprint-export (v2 version-aware)"
+echo "--------------------------------"
+
+V2_EXPORT_DIR=$(mktemp -d)
+"$BIN_DIR/sprint-init" "$V2_EXPORT_DIR" >/dev/null 2>&1
+V2_EX_FILE="$V2_EXPORT_DIR/sprint-output.md"
+
+# Write v2-style stages
+for i in 1 2 3 4 5 6 7 8 9; do
+  "$BIN_DIR/sprint-write" "$V2_EX_FILE" "$i" "## $i. Stage $i
+
+**Content:** Stage $i content" >/dev/null 2>&1
+done
+
+# Add some assumptions and quotes for export
+"$BIN_DIR/sprint-write" "$V2_EX_FILE" "append-assumption" "Test assumption|high|user|1|unvalidated"
+"$BIN_DIR/sprint-write" "$V2_EX_FILE" "append-quote" "Test quote from user|reddit|2"
+
+run_test "v2: exports product-context.md with v2 sections"
+"$BIN_DIR/sprint-export" "$V2_EX_FILE" >/dev/null 2>&1
+if [ -f "$V2_EXPORT_DIR/product-context.md" ]; then pass; else fail "product-context.md not created"; fi
+
+run_test "v2: does NOT generate claude-code-starter.md"
+if [ ! -f "$V2_EXPORT_DIR/claude-code-starter.md" ]; then pass; else fail "claude-code-starter.md should not exist for v2"; fi
+
+run_test "v2: export includes elevator pitch section"
+if grep -q -i "elevator pitch\|pitch" "$V2_EXPORT_DIR/product-context.md"; then pass; else fail "No elevator pitch in export"; fi
+
+run_test "v2: export includes quote wall"
+if grep -q "Test quote from user" "$V2_EXPORT_DIR/product-context.md"; then pass; else fail "Quote wall not in export"; fi
+
+rm -rf "$V2_EXPORT_DIR"
+
+echo ""
+
+# ========================================
+echo "backward compatibility"
+echo "---------------------"
+
+# Test 13: v1 sprint exports correctly under v2 code
+V1_COMPAT_DIR=$(mktemp -d)
+cat > "$V1_COMPAT_DIR/sprint-output.md" << 'V1SPRINT'
+---
+sprint_dir: /tmp/test
+stages_completed: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+created_at: 2026-01-01T00:00:00Z
+updated_at: 2026-01-01T00:00:00Z
+---
+
+# Design Sprint Output
+
+## 1. Exploration
+
+**Idea:** v1 test idea
+
+## 2. Problem Statement
+
+**Core problem:** v1 test problem
+
+## 3. Target User & JTBD
+
+**User:** v1 test user
+
+## 4. Solution Direction
+
+**Core insight:** v1 test solution
+
+## 5. Market & Competitors
+
+**Market:** v1 test market
+
+## 6. MVP Scope
+
+**Must-have features (v1):**
+1. Feature A
+
+**Explicitly NOT in v1:**
+- Feature B
+
+## 7. Critical Path
+
+**Tech stack:** React Native
+**Build order:** 1. Setup 2. Core
+
+## 8. Assumptions & Risks
+
+**Core assumptions:**
+1. Test assumption
+
+## 9. Build Handoff
+
+**First coding session plan:**
+1. Setup project
+V1SPRINT
+
+run_test "v1 backward compat: exports correctly under v2 code"
+"$BIN_DIR/sprint-export" "$V1_COMPAT_DIR/sprint-output.md" >/dev/null 2>&1
+if [ -f "$V1_COMPAT_DIR/product-context.md" ] && [ -f "$V1_COMPAT_DIR/claude-code-starter.md" ] && grep -q "v1 test idea" "$V1_COMPAT_DIR/product-context.md"; then
+  pass
+else
+  fail "v1 export broken under v2 code"
+fi
+
+# Test 14: v1 sprint resumes correctly
+run_test "v1 backward compat: resumes with v1 stage info"
+OUTPUT=$("$BIN_DIR/sprint-status" "$V1_COMPAT_DIR/sprint-output.md" 2>&1)
+if echo "$OUTPUT" | grep -q "VERSION: 1" && echo "$OUTPUT" | grep -q "RESUMING: 9"; then
+  pass
+else
+  fail "v1 resume broken: $OUTPUT"
+fi
+
+rm -rf "$V1_COMPAT_DIR"
+
+echo ""
+
+# ========================================
+echo "sprint-write (v2 edge cases)"
+echo "----------------------------"
+
+# Edge case: append to frontmatter missing assumptions key (v1 sprint)
+V1_APPEND_DIR=$(mktemp -d)
+cat > "$V1_APPEND_DIR/sprint-output.md" << 'V1NOQUOTES'
+---
+sprint_dir: /tmp/test
+stages_completed: [1]
+created_at: 2026-01-01T00:00:00Z
+updated_at: 2026-01-01T00:00:00Z
+---
+
+## 1. Test
+V1NOQUOTES
+
+run_test "v2: append assumption when key missing from frontmatter"
+"$BIN_DIR/sprint-write" "$V1_APPEND_DIR/sprint-output.md" "append-assumption" "Late assumption|low|inferred|1|unvalidated" 2>/dev/null
+if grep -q "Late assumption" "$V1_APPEND_DIR/sprint-output.md" && grep -q "^assumptions:" "$V1_APPEND_DIR/sprint-output.md"; then
+  pass
+else
+  fail "Could not append assumption to v1 frontmatter"
+fi
+
+rm -rf "$V1_APPEND_DIR"
 
 echo ""
 
