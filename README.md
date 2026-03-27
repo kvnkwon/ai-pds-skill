@@ -2,9 +2,9 @@
 
 > The missing layer between "I have an idea" and "I have a build-ready plan."
 
-A Claude Code skill that runs a structured product design sprint — solo. No team needed, no facilitator, no sticky notes. Just you and an AI that simulates PM, designer, engineer, and researcher perspectives through adaptive questioning.
+A Claude Code skill that runs a structured product design sprint — solo. No team needed, no facilitator, no sticky notes. Just you and an AI that acts as your thought partner, simulating PM, designer, engineer, and researcher perspectives through dynamic conversation.
 
-In 30-50 minutes, you go from a raw idea to three build-ready files you can hand straight to Claude Code.
+In 30-60 minutes, you go from a raw idea to a complete plan you can build from — or a prototype spec to validate first.
 
 ## Why this exists
 
@@ -32,35 +32,35 @@ Run `/sprint` and the AI guides you through 9 progressive stages:
 
 | Stage | What happens | What you produce |
 |-------|-------------|-----------------|
-| 1. **Exploration** | Capture your raw idea and energy | Idea summary, motivation, builder profile |
-| 2. **Problem Statement** | Sharpen the idea into a real problem | Clear problem, who feels it, current workarounds |
-| 3. **Target User & JTBD** | Define exactly who needs this | User profile, jobs-to-be-done, alternatives tried |
-| 4. **Solution Direction** | Explore how to solve it | Core insight, product form, magic moment |
-| 5. **Market & Competitors** | Understand the landscape | Competitive analysis, why now, your angle |
-| 6. **MVP Scope** | Cut ruthlessly to the smallest version | Must-haves, explicit cuts, timeline |
-| 7. **Critical Path** | Order the build plan | Build sequence, riskiest assumption, tech stack |
-| 8. **Assumptions & Risks** | Surface hidden blind spots | Ranked assumptions, top risk, kill criteria |
-| 9. **Build Handoff** | Prep for implementation | First session plan, confidence check |
+| 1. **Understand** | Deep stakeholder briefing — AI probes thin areas, surfaces gaps | Idea summary, domain knowledge, what's clear vs fuzzy |
+| 2. **Problems** | Collaborative pain point discovery — AI proposes 5+ pain points alongside yours | Prioritized pain points, problem statement |
+| 3. **Target User & JTBD** | Define exactly who needs this and what job they're hiring it for | User profile, jobs-to-be-done, alternatives tried |
+| 4. **Ideation** | Diverge-then-converge creative brainstorming — AI generates WOW ideas with you | Chosen direction, magic moment, ideas explored |
+| 5. **Market & Competitors** | Research-powered competitive landscape | Competitive matrix, why now, your angle |
+| 6. **Features** | Catalog, organize, and discuss ALL features | Full feature catalog organized by theme |
+| 7. **Assumptions & Risks** | Review all assumptions tracked throughout sprint | Ranked assumptions with evidence, interview script |
+| 8. **App Structure Map** | Full app visualization — the culmination of everything | ASCII app map, user flows, edge cases |
+| 9. **Build Handoff** | Choose your path: build or prototype | First step plan, confidence check |
 
 After the sprint, you get:
 
 - **Sprint Retrospective** — shows how your thinking evolved from Stage 1 to Stage 9
 - **Challenge Mode** (optional) — adversarial review that tries to break your plan
-- **Three export files** ready for Claude Code
+- **Elevator Pitch** — 30-second pitch generated from your sprint
+- **Two export files** ready for Claude Code
 
 ## The exports
 
 | File | Purpose |
 |------|---------|
-| `product-context.md` | Full sprint output formatted for Claude Code — problem, user, solution, scope, risks, and what NOT to build |
-| `claude-code-starter.md` | Implementation-ready prompt with MVP features, build order, tech stack, and first session plan |
-| `pitch-summary.md` | 1-page pitch you can share with anyone — problem, solution, MVP |
+| `product-context.md` | Full sprint output with quote wall and elevator pitch — hand this to Claude Code |
+| `pitch-summary.md` | 1-page pitch you can share with anyone |
 
 To start building after a sprint:
 
 ```
 Open a new Claude Code session in the same directory and say:
-"Read product-context.md and claude-code-starter.md, then start building."
+"Read product-context.md, then start building."
 ```
 
 ## Install — 10 seconds
@@ -85,21 +85,19 @@ git clone https://github.com/kvnkwon/ai-pds-skill.git .claude/skills/design-spri
 
 ```
 You:    /sprint
-Claude: Welcome to your design sprint. What's your idea?
+Claude: Welcome to your design sprint. Over the next 30-60 minutes,
+        we'll work through 9 stages of structured product thinking.
+        Ready? What's your idea?
 
-You:    I want to build a tool that helps people find the best coffee shops
-        for remote work.
+You:    I want to build a tool that helps people find the best coffee
+        shops for remote work.
 
-Claude: [asks adaptive questions, one at a time]
+Claude: [has a real conversation — probes, challenges, contributes ideas]
+        [tracks assumptions as they surface throughout]
+        [collects real user quotes from research]
         [drafts each section, you confirm or revise]
-        [challenges your assumptions mid-sprint]
         [shows your thinking evolution at the end]
-        [generates 3 export files]
-
-        Your sprint is complete! Three files have been generated:
-        - product-context.md
-        - claude-code-starter.md
-        - pitch-summary.md
+        [generates elevator pitch + export files]
 ```
 
 ### Quick sprint
@@ -120,8 +118,8 @@ Claude: [enters Quick Sprint mode]
 After completing a sprint, stress-test your plan:
 
 ```
-Claude: Want me to stress-test your plan? Challenge mode will try to
-        find fatal flaws and blind spots.
+Claude: Want me to stress-test your plan? I'll try to find fatal flaws
+        and blind spots.
 
 You:    Yes.
 
@@ -131,8 +129,22 @@ Claude: Let me challenge your problem statement: "[your statement]"
         Challenge Mode Results:
         - Problem Statement: SOLID
         - Target User: NEEDS WORK
-        - MVP Scope: SOLID
+        - Features: SOLID
         - Key Assumption: NEEDS WORK
+```
+
+### Living document
+
+Return to a completed sprint to update it based on what you've learned:
+
+```
+Claude: This sprint is complete. Want to update it based on what
+        you've learned since then?
+
+You:    Yes, I want to revisit the features.
+
+Claude: [re-runs Stage 6 with existing content as context]
+        [updates the sprint file in place]
 ```
 
 ### Sprint diff
@@ -141,17 +153,12 @@ Run the sprint again on the same idea to iterate:
 
 ```
 Claude: You have a completed sprint here. What would you like to do?
-        A) Start a fresh sprint on the same idea (creates a new version)
+        A) Start a fresh sprint on the same idea
         B) Start a sprint on a different idea
 
 You:    A
 
 Claude: [runs a new sprint, then shows what changed]
-        CHANGED: Stage 2 (Problem Statement)
-          Words: 85 → 142
-        CHANGED: Stage 5 (MVP Scope)
-          Words: 120 → 95
-        SUMMARY: 2 section(s) changed between versions.
 ```
 
 ### Idea graveyard
@@ -161,8 +168,7 @@ When you kill an idea mid-sprint, save it for later learning:
 ```
 You:    Actually, I don't think this idea works.
 
-Claude: Want to save this to the idea graveyard? It keeps a record of
-        what you explored and why you moved on.
+Claude: Want to save this to the idea graveyard?
 
 You:    Yes. The market is too crowded.
 
@@ -171,61 +177,72 @@ Claude: Buried. Saved to .sprint-graveyard/ with your reasoning.
 
 ## Features
 
-### Adaptive questioning
-The AI doesn't ask a rigid list of questions. It adapts based on what you've already said — if you defined your target user during the Exploration stage, it confirms rather than re-asking in Stage 3.
+### Conversational depth
+Every stage is a dynamic conversation, not a checklist. The AI adapts to what you say — a one-paragraph answer and a five-paragraph answer get fundamentally different responses. You control when to move on.
 
-### Perspective injection
-Mid-sprint, the AI occasionally drops uncomfortable questions from different expert perspectives:
+### AI as thought partner
+The AI actively contributes ideas, pain points, features, and creative solutions alongside yours. In the Ideation stage, it generates wild ideas from analogous products, emerging tech, and unconventional approaches to create "oh, I hadn't thought of that" moments.
 
-- *"An engineer reviewing this would ask: how do you handle [edge case]?"*
-- *"If I were your toughest potential customer, I'd push back on [assumption]."*
-- *"A designer would say: what does the user see when [error state] happens?"*
+### Sprint personas
+At key stages, the AI shifts into specific perspectives:
+- *Stage 2:* "As someone who lives this problem every day..."
+- *Stage 4:* "As a designer thinking about the experience..."
+- *Stage 6:* "As an engineer, building this means..."
+- *Stage 8:* "As a skeptical investor, I'd want to know..."
 
-These fire naturally when you're in a comfort zone — giving quick, shallow answers.
+### Incremental assumption tracking
+Assumptions are flagged throughout the entire sprint, not just in the risks stage. By Stage 7, you have a comprehensive list to review and validate — nothing gets lost.
 
-### Soft stage gating
-You can skip any stage, but the AI warns you about the consequences:
+### Research-powered intelligence
+When enabled, the AI researches your market, competitors, and users in real-time using web search — bringing real data, quotes, and competitive intelligence into the conversation.
 
-> "You can skip this stage, but your MVP scope will be harder to define
-> without a clear problem statement. Want to skip anyway?"
+### App structure map
+The culmination of the sprint: a full ASCII visualization of your entire app — every screen, flow, and edge case assembled from everything discovered across all stages.
+
+### Anti-slop voice
+No consultant jargon, no empty validation ("Great point!"), no generic transitions. The AI mirrors your language and stays concrete and specific.
 
 ### Session resumption
 Quit anytime — your progress is saved after each stage. Run `/sprint` again in the same directory and it picks up where you left off.
 
-### Confirm-first artifacts
-The AI never saves anything without your approval. After each stage, it drafts the section and asks you to confirm or revise before writing to disk.
+### Backward compatibility
+v1 sprints in progress when you upgrade to v2 will continue to work. v1 stage files are preserved and loaded automatically based on the sprint version.
 
 ## Architecture
 
 ```
 design-sprint/
-├── SKILL.md                ← Orchestration + shared confirm/write protocol
+├── SKILL.md                     ← v2 orchestrator (~420 lines)
 ├── stages/
-│   ├── 01-exploration.md   ← Stage-specific questions and output format
-│   ├── 02-problem.md
-│   ├── 03-user-jtbd.md
-│   ├── 04-solution.md
-│   ├── 05-mvp-scope.md
-│   ├── 06-critical-path.md
-│   ├── 07-assumptions-risks.md
-│   ├── 08-build-handoff.md
-│   ├── retrospective.md   ← Post-sprint thinking evolution
-│   └── challenge-mode.md  ← Adversarial plan review
+│   ├── 01-understand.md         ← Deep stakeholder briefing
+│   ├── 02-problems.md           ← Collaborative pain point discovery
+│   ├── 03-user-jtbd.md          ← User definition + JTBD
+│   ├── 04-ideation.md           ← Diverge-then-converge brainstorming
+│   ├── 05-market-competitors.md ← Research-powered competitive analysis
+│   ├── 06-features.md           ← Full feature catalog
+│   ├── 07-assumptions-risks.md  ← Assumption review + interview script
+│   ├── 08-app-structure.md      ← Full app visualization (NEW in v2)
+│   ├── 09-build-handoff.md      ← Build or prototype path
+│   ├── challenge-mode.md        ← Adversarial plan review
+│   ├── retrospective.md         ← Thinking evolution
+│   └── v1/                      ← Preserved v1 stage files
 ├── bin/
-│   ├── sprint-init         ← Initialize sprint with YAML frontmatter
-│   ├── sprint-status       ← Read stage completion state
-│   ├── sprint-write        ← Append section + update frontmatter
-│   ├── sprint-export       ← Generate 3 export files
-│   ├── sprint-diff         ← Compare sprint versions section-by-section
-│   └── sprint-graveyard    ← Archive abandoned sprints
-└── test.sh                 ← 37 tests covering all helpers
+│   ├── sprint-init              ← Initialize sprint with YAML frontmatter
+│   ├── sprint-status            ← Read stage completion + version detection
+│   ├── sprint-write             ← Append sections + YAML array operations
+│   ├── sprint-export            ← Version-aware export generation
+│   ├── sprint-diff              ← Compare sprint versions
+│   └── sprint-graveyard         ← Archive abandoned sprints
+└── test.sh                      ← 53 tests covering all helpers
 ```
 
-**SKILL.md** handles orchestration — stage sequencing, the shared confirm/write protocol, perspective injection, and soft gating. Each stage file contains only its questions and output format (DRY — no duplicated logic).
+**SKILL.md** handles orchestration — conversational engine, anti-slop directive, sprint personas, assumption tracking, kill checks, progress visualization, and version-aware stage loading.
 
-**Bash helpers** handle all file I/O — YAML frontmatter management, section appending, export generation, version diffing, and graveyard archiving. All helpers use `set -euo pipefail` with error handling for permissions, corrupt YAML recovery, path validation, and disk space checks.
+**Stage files** contain conversation flow, research instructions, emotional arc, persona prompts, and output format for each stage. Each stage output captures the synthesis, research findings, discussion notes, and deprioritized items.
 
-**Sprint output** is a single `sprint-output.md` file with YAML frontmatter tracking completion state and the absolute project path. Sections are appended incrementally as each stage completes.
+**Bash helpers** handle all file I/O — YAML frontmatter with version detection, multi-line array operations (assumptions, quotes), section appending, version-aware export generation, version diffing, and graveyard archiving. All use `set -euo pipefail` with error handling.
+
+**Sprint output** is a single `sprint-output.md` with YAML frontmatter tracking version, completion state, assumptions, and quotes. Sections are appended incrementally as each stage completes.
 
 ## Tests
 
@@ -233,14 +250,15 @@ design-sprint/
 cd ~/.claude/skills/design-sprint && ./test.sh
 ```
 
-37 tests covering:
-- Sprint initialization and resumption
+53 tests covering:
+- Sprint initialization (v2 frontmatter with version, assumptions, quotes)
 - Section writing and frontmatter updates
-- Export generation (all 3 formats)
+- YAML array operations (append assumption, append quote, special characters)
+- Version detection (v1 vs v2)
+- Version-aware export generation (v1 gets claude-code-starter.md, v2 does not)
+- Backward compatibility (v1 sprints work under v2 code)
 - Error handling (invalid stages, relative paths, corrupt YAML, missing files, permissions)
-- YAML frontmatter recovery from corruption
-- Sprint diffing between versions
-- Idea graveyard archiving
+- Sprint diffing and graveyard archiving
 
 ## Inspired by
 
