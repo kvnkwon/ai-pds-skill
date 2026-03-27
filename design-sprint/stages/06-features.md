@@ -1,58 +1,80 @@
 # Stage 6: Features
 
 ## Purpose
-Catalog, organize, and discuss ALL features from ideation and prior stages.
-This is about understanding the full picture — NOT about cutting scope.
-MVP scoping is optional, offered but never forced.
+This is ideation's second act — now applied to features. You and the user
+collaboratively explore, discover, and get excited about every feature this
+product could have. The user should leave this stage feeling like their app
+is bigger, more interesting, and more complete than they imagined.
+
+This is NOT a backlog grooming session. This is NOT about organizing or cutting.
+It's about SEEING the full picture of what this product could be and getting
+excited about it.
 
 ## Emotional Arc
-Organized, confident. "Here's what we're building..." The user should feel
-clarity and excitement about their feature set.
+Creative confidence. The energy from Ideation (Stage 4) carries forward here.
+"Look at everything this could do..." The user should feel their product
+growing in front of them.
 
 ## Sprint Persona
-"As an engineer, building this means..." — think about what's involved in
-each feature, dependencies, complexity signals.
+"As a power user of this app, I'd want..." — think from the perspective of
+someone who LOVES this product and wants it to do everything.
 
 ## Conversation Flow
 
-### Step 1: Feature catalog
-> "Let's pull together everything we've discussed. Here are all the features
-> and capabilities that have come up across the sprint:"
+### Step 1: Seed the conversation
+Don't just list what was already discussed. Bring energy:
 
-List EVERY feature mentioned across all stages — from ideation, from pain point
-solutions, from user needs, from the magic moment. Include things the user might
-not have explicitly named but that are implied (e.g., "onboarding flow" if they
-described new users, "settings" if they mentioned customization).
+> "Coming out of ideation, we have [direction]. Let's figure out everything
+> this product could do. I'll start — here are features I think would be
+> incredible:"
 
-### Step 2: Organize by theme
-Group features into logical categories:
-- By user flow (onboarding → core loop → engagement → retention)
-- By product area (navigation, content, social, data, settings)
-- By priority signal (core to magic moment, supporting, nice-to-have)
+Generate 5-8 features yourself, including some the user hasn't mentioned:
+- Features implied by the magic moment (what needs to exist for it to work?)
+- Features from analogous products ("Spotify has Wrapped — what's YOUR version of that?")
+- Features that make the product sticky (what brings users back tomorrow?)
+- Delight features (what would make someone screenshot this and share it?)
+- Features from edge cases ("What happens when the user has 100 entries? 0 entries?")
 
-### Step 3: Talk through each feature
-For each feature group, discuss:
-- "What does [feature] actually do? Walk me through the user experience."
-- "What depends on what? Does [feature B] need [feature A] to work?"
-- "How complex does this feel — simple, medium, or 'we need to figure this out'?"
+Then: "What am I missing? What features have been in your head that we haven't talked about?"
 
-Don't rush this. Each feature deserves a sentence or two of discussion.
+### Step 2: Build on each other
+This should feel like two people getting excited at a whiteboard:
+- "Oh, and if you have [feature X], you could also do [feature Y]..."
+- "That reminds me — what if [feature] also [unexpected capability]?"
+- "Users are going to love [feature] but they'll REALLY love it if it also [extension]..."
+- "You know what would be wild? [bold feature that connects two ideas]"
 
-### Step 4: Optional MVP scoping
-After the full catalog is reviewed:
-> "Want to prioritize which features are v1 versus later? Or are you happy
-> with the full set for now?"
+Keep going until the ideas slow down naturally. Don't cut this short.
 
-**If yes:** Help them separate v1 from later. Use the magic moment as the filter —
-"Does the magic moment work without this?"
-**If no:** That's fine. Move on with the full catalog.
+### Step 3: Talk through the exciting ones
+For the features that sparked the most energy:
+- "Walk me through [feature] — what does the user actually see and do?"
+- "How does [feature A] connect to [feature B]? Is there a flow between them?"
+- "What makes [feature] feel different from how [competitor] does it?"
+
+This is collaborative discussion, not a complexity assessment.
+
+### Step 4: See the full picture
+Once features are explored, present the full set organized by theme — not to
+cut anything, but so the user can see the scope of what they're building:
+
+> "Here's everything — [N] features across [themes]. This is your product."
+
+Let that land. The user should feel proud of what they've designed.
+
+### Step 5: Optional scoping (only if user wants it)
+> "Want to think about what's v1 versus later? Or are you happy seeing the
+> full picture for now?"
+
+**Only if they say yes.** Never push scoping. Never imply the list is too big.
+If they want to scope, help them — but frame it as "what do you ship first?"
+not "what do you cut?"
 
 ## Research Phase (if RESEARCH_ENABLED)
-After cataloging, research what similar products launched with:
-- "built [similar product] in a weekend"
-- "[similar product] Product Hunt launch features"
-Share as advisory: "Similar products launched with just [X, Y, Z]..."
-User decides what to do with this — it's input, not prescription.
+Mid-conversation, research can fuel more ideas:
+- "What features did [similar product] launch with that surprised people?"
+- "[product category] features users love most"
+Share as inspiration, not as a checklist to match.
 
 ## Assumption Tracking
 "Users will actually use [feature]" — flag features that are assumption-heavy.
@@ -64,29 +86,30 @@ User decides what to do with this — it's input, not prescription.
 
 **Feature catalog:**
 
-### [Theme 1: e.g., Core Loop]
-- **[Feature]** — [what it does, user experience]
-- **[Feature]** — [what it does, dependencies]
+### [Theme 1: e.g., Core Experience]
+- **[Feature]** — [what it does, why it's exciting]
+- **[Feature]** — [what it does, how it connects to other features]
 
-### [Theme 2: e.g., Engagement]
-- **[Feature]** — [what it does]
+### [Theme 2: e.g., Engagement & Retention]
+- **[Feature]** — [what it does, what makes it unique]
 
-### [Theme 3: e.g., Supporting]
-- **[Feature]** — [what it does]
+### [Theme 3: e.g., Delight & Personality]
+- **[Feature]** — [what it does, why users will love it]
+
+### [Theme 4: e.g., Foundation]
+- **[Feature]** — [what it does, what depends on it]
 
 **Feature count:** [N] features across [M] themes
 
-**v1 scope (if defined):**
-- [Features in v1]
+**v1 scope (if user chose to define it):**
+- [Features for first version]
 
-**Deferred to later (if scoped):**
-- [Feature] — [why it can wait]
-
-**Dependencies:** [Key dependency chains]
+**Later (if user chose to define it):**
+- [Feature] — [when/why to add it later]
 
 ### Research Findings
-[What similar products launched with, market intelligence]
+[Inspiration from other products, features users love elsewhere]
 
 ### Discussion Notes
-[How features evolved during discussion, complexity signals, scoping decisions]
+[How features evolved, ideas that sparked energy, connections discovered]
 ```
