@@ -138,8 +138,8 @@ At key stages, shift into a specific perspective. These replace the v1 random
 
 - **Stage 2 (Problems):** "As someone who lives this problem every day..."
 - **Stage 4 (Ideation):** "As a designer thinking about the experience..."
-- **Stage 6 (Features):** "As an engineer, building this means..."
-- **Stage 8 (App Structure):** "As a skeptical investor, I'd want to know..."
+- **Stage 6 (Features):** "As a power user who loves this product..."
+- **Stage 9 (App Structure):** "As a skeptical investor, I'd want to know..."
 
 Use these naturally. Don't announce them. Just shift perspective and ask the question.
 
@@ -147,19 +147,37 @@ Use these naturally. Don't announce them. Just shift perspective and ask the que
 
 ## Incremental Assumption Tracker
 
-Throughout ALL stages, watch for assumptions. When you notice one (stated by user
-or implied by a decision), flag it:
+**THIS IS NOT OPTIONAL.** Every stage MUST surface and log assumptions. If you
+finish a stage without logging at least 2-3 assumptions, you missed some. Go back
+and find them.
+
+Assumptions are EVERYWHERE:
+- "Users will [behavior]" — assumption
+- "The market is [state]" — assumption
+- "People currently [workaround]" — assumption
+- "This feature will [outcome]" — assumption
+- "Users will discover this through [channel]" — assumption
+- "Users will come back because [reason]" — assumption
+- "This is technically feasible because [reason]" — assumption
+- Any time the user says "I think" or "I believe" — probably an assumption
+
+When you notice one, flag it immediately in the conversation:
 
 > "[ASSUMPTION] Dog owners are willing to pay for walk tracking
 > (confidence: medium, source: user-stated)"
 
-Then append to YAML:
+Then append to YAML immediately — don't batch them:
 ```bash
 "$SKILL_DIR/bin/sprint-write" "$SPRINT_FILE" "append-assumption" "Dog owners are willing to pay for walk tracking|medium|user-stated|STAGE_NUM|unvalidated"
 ```
 
-Stage 7 (Assumptions & Risks) reviews the accumulated list instead of discovering
-from scratch. This is the payoff — no assumptions get lost.
+**Target: 25-40 assumptions by Stage 8.** If you have fewer than 20 by the time
+you reach Assumptions & Risks, you weren't tracking aggressively enough.
+
+Stage 8 (Assumptions & Risks) reviews the accumulated list instead of discovering
+from scratch. If the list is thin, that stage will feel empty and useless. The
+whole point is that assumptions accumulate throughout the sprint so Stage 8 has
+a rich list to review.
 
 ---
 
@@ -179,6 +197,7 @@ These aggregate into the Quote Wall section of the export.
 ## Mini Kill Checks
 
 After Stage 4 (Ideation) and Stage 6 (Features), do a quick gut check.
+30 seconds each, not a deep exercise.
 Frame it as making the idea stronger, not finding flaws:
 
 > "Before we go further — what's the one thing that would need to be true
@@ -200,16 +219,17 @@ Each stage has an energy/tone. Don't be robotic about it, but be aware:
 | 3. Target User | Empathy, specificity | "Picture this person..." |
 | 4. Ideation | Excitement, creative | "What if we..." |
 | 5. Market | Analytical, grounded | "Here's what's out there..." |
-| 6. Features | Organized, confident | "Here's what we're building..." |
-| 7. Assumptions | Honest, rigorous | "Let's be real about..." |
-| 8. App Structure | Awe, culmination | "Look at everything we figured out..." |
-| 9. Build Handoff | Activation, momentum | "You're ready. Here's what's next..." |
+| 6. Features | Creative confidence | "Look at everything this could do..." |
+| 7. Critical Path | Clarity, momentum | "Here's the whole journey..." |
+| 8. Assumptions | Honest, rigorous | "Let's be real about..." |
+| 9. App Structure | Awe, culmination | "Look at everything we figured out..." |
+| 10. Build Handoff | Activation, momentum | "You're ready. Here's what's next..." |
 
 ---
 
 ## Stage Progression
 
-Run stages in order: 1 → 2 → 3 → 4 → [kill check] → 5 → 6 → [kill check] → 7 → 8 → 9 → Retrospective.
+Run stages in order: 1 → 2 → 3 → 4 → [kill check] → 5 → 6 → [kill check] → 7 → 8 → 9 → 10 → Retrospective.
 
 For each stage:
 1. **Read the stage file** from `stages/` using the Read tool
@@ -244,7 +264,7 @@ After each stage completion, show progress:
 
 ```
 Sprint Progress
-████████░░░░░░░░░░ 4/9
+████████░░░░░░░░░░░░ 4/10
 
 ✓ Understand — Dog walk tracking app for guilty pet owners
 ✓ Problems — 7 pain points: guilt, inconsistency, no data...
@@ -252,6 +272,7 @@ Sprint Progress
 ✓ Ideation — Smart walk tracking with social accountability
 ░ Market & Competitors
 ░ Features
+░ Critical Path
 ░ Assumptions & Risks
 ░ App Structure Map
 ░ Build Handoff
@@ -282,7 +303,7 @@ The stage files define the specific structure. These four elements should appear
 
 ---
 
-## After Stage 9: Sprint Retrospective
+## After Stage 10: Sprint Retrospective
 
 After Build Handoff, read `stages/retrospective.md` and follow its instructions.
 The retrospective compares initial idea (Stage 1) to final plan and highlights
@@ -384,7 +405,7 @@ If user invokes with a specific focus (e.g., "/sprint --focus user"):
 
 ## Living Document Mode (v2)
 
-If `/sprint` is run and sprint-status shows all 9 stages complete:
+If `/sprint` is run and sprint-status shows all 10 stages complete:
 
 > "This sprint is complete. Want to update it based on what you've learned
 > since then? I can walk through each stage and help you revise."

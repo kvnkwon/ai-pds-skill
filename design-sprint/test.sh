@@ -151,7 +151,7 @@ echo "sprint-export"
 echo "-------------"
 
 # Write remaining stages for a more complete export test
-for i in 4 5 6 7 8 9; do
+for i in 4 5 6 7 8 9 10; do
   "$BIN_DIR/sprint-write" "$TMPDIR/sprint-output.md" "$i" "## $i. Stage $i
 
 **Content:** Stage $i content"
@@ -199,14 +199,20 @@ else
 fi
 
 run_test "accepts stage number 9"
-"$BIN_DIR/sprint-write" "$TMPDIR/sprint-output.md" "9" "## 9. Build Handoff
+"$BIN_DIR/sprint-write" "$TMPDIR/sprint-output.md" "9" "## 9. App Structure
 
 **Content:** Stage 9 test" >/dev/null 2>&1
 if grep -q "Stage 9 test" "$TMPDIR/sprint-output.md"; then pass; else fail "Stage 9 not written"; fi
 
-run_test "rejects invalid stage number (10)"
-if "$BIN_DIR/sprint-write" "$TMPDIR/sprint-output.md" "10" "content" 2>/dev/null; then
-  fail "Should have rejected stage 10"
+run_test "accepts stage number 10"
+"$BIN_DIR/sprint-write" "$TMPDIR/sprint-output.md" "10" "## 10. Build Handoff
+
+**Content:** Stage 10 test" >/dev/null 2>&1
+if grep -q "Stage 10 test" "$TMPDIR/sprint-output.md"; then pass; else fail "Stage 10 not written"; fi
+
+run_test "rejects invalid stage number (11)"
+if "$BIN_DIR/sprint-write" "$TMPDIR/sprint-output.md" "11" "content" 2>/dev/null; then
+  fail "Should have rejected stage 11"
 else
   pass
 fi
@@ -428,7 +434,7 @@ V2_EXPORT_DIR=$(mktemp -d)
 V2_EX_FILE="$V2_EXPORT_DIR/sprint-output.md"
 
 # Write v2-style stages
-for i in 1 2 3 4 5 6 7 8 9; do
+for i in 1 2 3 4 5 6 7 8 9 10; do
   "$BIN_DIR/sprint-write" "$V2_EX_FILE" "$i" "## $i. Stage $i
 
 **Content:** Stage $i content" >/dev/null 2>&1

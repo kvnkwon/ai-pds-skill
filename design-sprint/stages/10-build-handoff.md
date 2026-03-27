@@ -1,4 +1,4 @@
-# Stage 9: Build Handoff
+# Stage 10: Build Handoff
 
 ## Purpose
 Finalize the sprint and prepare for what's next. The user chooses their path:
@@ -79,7 +79,7 @@ Present three options based on what they want to validate:
 ## Section Output Format
 
 ```markdown
-## 9. Build Handoff
+## 10. Build Handoff
 
 **Chosen path:** [Build / Prototype (type) / Thinking about it]
 

@@ -1,4 +1,4 @@
-# Stage 8: App Structure Map
+# Stage 9: App Structure Map
 
 ## Purpose
 This is the culmination of the sprint. Everything we've figured out — features,
@@ -157,7 +157,7 @@ Iterate until the user feels confident the map represents their full vision.
 ## Section Output Format
 
 ```markdown
-## 8. App Structure Map
+## 9. App Structure Map
 
 **Product type:** [Mobile app / Web app / SaaS / CLI]
 

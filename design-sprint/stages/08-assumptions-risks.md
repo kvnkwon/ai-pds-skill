@@ -1,9 +1,14 @@
-# Stage 7: Assumptions & Risks
+# Stage 8: Assumptions & Risks
 
 ## Purpose
-Review ALL assumptions surfaced during the sprint and validate them. This stage
-doesn't discover assumptions from scratch — the Incremental Assumption Tracker
-has been collecting them since Stage 1. Here we review, validate, and plan.
+Review ALL assumptions surfaced during the sprint and validate them. By now,
+the Incremental Assumption Tracker should have 25-40 assumptions collected
+across Stages 1-7. This stage reviews, validates, and plans around them.
+
+If the accumulated list feels thin (fewer than 20), generate more yourself.
+Scan every prior stage's output and the conversation context for implicit
+assumptions that weren't flagged. The user should see a COMPREHENSIVE list
+here — not a handful.
 
 ## Emotional Arc
 Honest, rigorous. "Let's be real about..." No sugarcoating, but constructive.
@@ -74,7 +79,7 @@ or contradict assumptions. Append to Quote Wall via sprint-write.
 ## Section Output Format
 
 ```markdown
-## 7. Assumptions & Risks
+## 8. Assumptions & Risks
 
 **Assumptions (full list):**
 1. [Assumption] — Confidence: [H/M/L] | Evidence: [Supported/Mixed/Contradicted/Untested]

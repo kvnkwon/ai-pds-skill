@@ -112,9 +112,9 @@ esac
 # ── Stage write operation (original behavior) ────────────────────────────
 STAGE_NUM="$ACTION"
 
-# Validate stage_number is 1-9
-if ! echo "$STAGE_NUM" | grep -qE '^[1-9]$'; then
-  echo "ERROR: Invalid stage number '$STAGE_NUM'. Must be an integer from 1 to 9." >&2
+# Validate stage_number is 1-10
+if ! echo "$STAGE_NUM" | grep -qE '^([1-9]|10)$'; then
+  echo "ERROR: Invalid stage number '$STAGE_NUM'. Must be an integer from 1 to 10." >&2
   exit 1
 fi
 
