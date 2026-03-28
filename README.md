@@ -4,7 +4,7 @@
 
 A Claude Code skill that runs a structured product design sprint — solo. No team needed, no facilitator, no sticky notes. Just you and an AI that acts as your thought partner, simulating PM, designer, engineer, and researcher perspectives through dynamic conversation.
 
-In 30-60 minutes, you go from a raw idea to a complete plan you can build from — or a prototype spec to validate first.
+In 30-60 minutes, you go from a raw idea to a complete plan you can build from — or a prototype spec to validate first. 10 stages, each a real conversation.
 
 ## Why this exists
 
@@ -28,23 +28,24 @@ Traditional design sprints solve this, but they require a full team, rigid sched
 
 ## What you get
 
-Run `/sprint` and the AI guides you through 9 progressive stages:
+Run `/sprint` and the AI guides you through 10 progressive stages:
 
 | Stage | What happens | What you produce |
 |-------|-------------|-----------------|
 | 1. **Understand** | Deep stakeholder briefing — AI probes thin areas, surfaces gaps | Idea summary, domain knowledge, what's clear vs fuzzy |
 | 2. **Problems** | Collaborative pain point discovery — AI proposes 5+ pain points alongside yours | Prioritized pain points, problem statement |
 | 3. **Target User & JTBD** | Define exactly who needs this and what job they're hiring it for | User profile, jobs-to-be-done, alternatives tried |
-| 4. **Ideation** | Diverge-then-converge creative brainstorming — AI generates WOW ideas with you | Chosen direction, magic moment, ideas explored |
+| 4. **Ideation** | AI comes in hot with bold ideas, you riff together | Chosen direction, magic moment, 10x vision |
 | 5. **Market & Competitors** | Research-powered competitive landscape | Competitive matrix, why now, your angle |
-| 6. **Features** | Catalog, organize, and discuss ALL features | Full feature catalog organized by theme |
-| 7. **Assumptions & Risks** | Review all assumptions tracked throughout sprint | Ranked assumptions with evidence, interview script |
-| 8. **App Structure Map** | Full app visualization — the culmination of everything | ASCII app map, user flows, edge cases |
-| 9. **Build Handoff** | Choose your path: build or prototype | First step plan, confidence check |
+| 6. **Features** | Creative feature brainstorming — AI proposes features, you build on each other | Full feature catalog, delight features, dependencies |
+| 7. **Critical Path** | Map the full user journey from problem to habit | Awareness → magic moment → retention loop |
+| 8. **Assumptions & Risks** | Review 25-40 assumptions tracked throughout sprint | Ranked assumptions with evidence, interview script |
+| 9. **App Structure Map** | Full app visualization — the culmination of everything | ASCII app map, user flows, edge cases |
+| 10. **Build Handoff** | Choose your path: build or prototype | First step plan, confidence check |
 
 After the sprint, you get:
 
-- **Sprint Retrospective** — shows how your thinking evolved from Stage 1 to Stage 9
+- **Sprint Retrospective** — shows how your thinking evolved from Stage 1 to Stage 10
 - **Challenge Mode** (optional) — adversarial review that tries to break your plan
 - **Elevator Pitch** — 30-second pitch generated from your sprint
 - **Two export files** ready for Claude Code
@@ -212,17 +213,18 @@ v1 sprints in progress when you upgrade to v2 will continue to work. v1 stage fi
 
 ```
 design-sprint/
-├── SKILL.md                     ← v2 orchestrator (~420 lines)
+├── SKILL.md                     ← v2 orchestrator (~450 lines)
 ├── stages/
 │   ├── 01-understand.md         ← Deep stakeholder briefing
 │   ├── 02-problems.md           ← Collaborative pain point discovery
 │   ├── 03-user-jtbd.md          ← User definition + JTBD
-│   ├── 04-ideation.md           ← Diverge-then-converge brainstorming
+│   ├── 04-ideation.md           ← Bold creative brainstorming
 │   ├── 05-market-competitors.md ← Research-powered competitive analysis
-│   ├── 06-features.md           ← Full feature catalog
-│   ├── 07-assumptions-risks.md  ← Assumption review + interview script
-│   ├── 08-app-structure.md      ← Full app visualization (NEW in v2)
-│   ├── 09-build-handoff.md      ← Build or prototype path
+│   ├── 06-features.md           ← Creative feature exploration
+│   ├── 07-critical-path.md      ← Full user journey mapping
+│   ├── 08-assumptions-risks.md  ← Assumption review + interview script
+│   ├── 09-app-structure.md      ← Full app visualization
+│   ├── 10-build-handoff.md      ← Build or prototype path
 │   ├── challenge-mode.md        ← Adversarial plan review
 │   ├── retrospective.md         ← Thinking evolution
 │   └── v1/                      ← Preserved v1 stage files
@@ -233,7 +235,7 @@ design-sprint/
 │   ├── sprint-export            ← Version-aware export generation
 │   ├── sprint-diff              ← Compare sprint versions
 │   └── sprint-graveyard         ← Archive abandoned sprints
-└── test.sh                      ← 53 tests covering all helpers
+└── test.sh                      ← 54 tests covering all helpers
 ```
 
 **SKILL.md** handles orchestration — conversational engine, anti-slop directive, sprint personas, assumption tracking, kill checks, progress visualization, and version-aware stage loading.
@@ -250,7 +252,7 @@ design-sprint/
 cd ~/.claude/skills/design-sprint && ./test.sh
 ```
 
-53 tests covering:
+54 tests covering:
 - Sprint initialization (v2 frontmatter with version, assumptions, quotes)
 - Section writing and frontmatter updates
 - YAML array operations (append assumption, append quote, special characters)
